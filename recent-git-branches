@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+limit="${1:-10}"
+
+log=$(git reflog --date=relative \
+  | grep 'checkout: moving from' \
+  | sed -E 's/^[^@]+@\{([^}]+)\}: checkout: moving from ([^ ]+) to .*/\2\t\1/' \
+  | awk '!seen[$1]++' \
+  | head -n "$limit" \
+  | column -s$'\t' -t)
+
+printf "%s\n" "$log" | fzf \
+  --style full \
+  --height ~50% \
+  --input-label 'Select branch to check out' \
+  --list-label '10 most recent branches' \
+  --preview 'git log --oneline -13 {1}' \
+  --preview-label 'Recent commits on selected branch. Press TAB to step through commits' \
+  --color 'border:#c678dd, label:#61afef, fg:#e5c07b, fg+:#d19a66, query:#89ca78, hl:#98c379, hl+:#89ca78, pointer:#c678dd, preview-fg:#abb2bf, prompt:#61afef, info:#61afef' \
+  --bind 'tab:reload(git log --oneline -10 {1})' \
+  --bind 'tab:+change-preview( git show --abbrev-commit --name-only {1})' \
+  --bind 'tab:+change-list-label(10 most recent commits)' \
+  --bind 'tab:+change-preview-label(Commit info)' \
+  --bind 'tab:+change-input-label(Select commit to check out)' \
+  | awk '{ print $1 }' \
+  | xargs git checkout

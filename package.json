@@ -1,0 +1,10 @@
+{
+  "name": "git-recent-branches",
+  "version": "1.0.0",
+  "description": "Interactive recent branch selector from reflog",
+  "bin": {
+    "git-recent": "./recent-git-branches"
+  },
+  "author": "Alexander Thulin",
+  "license": "MIT"
+}
