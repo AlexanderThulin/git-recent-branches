@@ -1,10 +1,21 @@
 {
   "name": "git-recent-branches",
   "version": "1.0.0",
-  "description": "Interactive recent branch selector from reflog",
+  "description": "Interactive fuzzy picker for recently checked out Git branches",
   "bin": {
-    "git-recent": "./recent-git-branches"
+    "git-recent": "./bin/recent-git-branches"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexanderThulin/git-recent-branches.git"
   },
   "author": "Alexander Thulin",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "fzf",
+    "branches",
+    "cli",
+    "reflog"
+  ]
 }
